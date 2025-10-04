@@ -32,15 +32,17 @@ junit allowEmptyResults: true, testResults: 'reports/junit/junit.xml'
 }
 }
 stage('Build & Push Image') {
+agent none
 steps {
-sh 'docker buildx create --use || true'
 script {
+node { // switch to Jenkins host/agent with Docker
+sh 'docker version'
+sh 'docker buildx create --use || true'
 def tag = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')]) {
 sh 'echo "$DH_PASS" | docker login -u "$DH_USER" --password-stdin'
 }
 sh "docker buildx build --platform linux/amd64 -t ${IMAGE}:${tag} --push ."
-}
 }
 }
 }
