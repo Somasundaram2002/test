@@ -1,0 +1,16 @@
+{
+  "name": "ci-cd-minimal",
+  "version": "1.0.0",
+  "description": "Minimal Node project for CI/CD practice",
+  "scripts": {
+    "test": "jest --runInBand"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-junit": "^16.0.0"
+  },
+  "jest-junit": {
+    "outputDirectory": "reports/junit",
+    "outputName": "junit.xml"
+  }
+}
